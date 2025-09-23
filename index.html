@@ -319,29 +319,6 @@
 
     .project-card img {
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0;
-      background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
-      background-size: 200% 200%;
-      animation: shimmer 1.5s ease-in-out infinite;
-    }
-
-    .project-card img.loaded {
-      opacity: 1;
-    }
-
-    @keyframes shimmer {
-      0% {
-        background-position: -200% -200%;
-      }
-
-      50% {
-        background-position: 200% 200%;
-      }
-
-      100% {
-        background-position: -200% -200%;
-      }
     }
 
     .project-card:hover img {
@@ -603,39 +580,6 @@
         .project-details {
           height: auto !important;
           max-height: 45vh !important;
-        }
-
-        .image-container {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .image-container::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 20px;
-          height: 20px;
-          border: 2px solid var(--tosca-muted);
-          border-top: 2px solid var(--tosca-primary);
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-
-        .image-container img[style*="opacity: 1"]+ ::before {
-          display: none;
-        }
-
-        @keyframes spin {
-          0% {
-            transform: translate(-50%, -50%) rotate(0deg);
-          }
-
-          100% {
-            transform: translate(-50%, -50%) rotate(360deg);
-          }
         }
       }
     }
@@ -1274,7 +1218,7 @@
       }
     ];
 
-    // Generate project cards with lazy loading
+    // Generate project cards
     function generateProjectCards() {
       const grid = document.getElementById('projectsGrid');
 
@@ -1283,11 +1227,9 @@
         card.className = 'col-md-6 col-lg-4';
         card.innerHTML = `
       <div class="card h-100 project-card" data-project-id="${project.id}">
-        <div class="image-container" style="height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-          <img src="${project.images[0]}" class="card-img-top" alt="${project.title}" 
-               style="height: 200px; object-fit: cover; opacity: 0; transition: opacity 0.3s ease;" 
-               onload="this.style.opacity = '1'">
-        </div>
+        <img src="${project.images[0]}" class="card-img-top" alt="${project.title}" 
+             style="height: 200px; object-fit: cover;" 
+             onload="this.classList.add('loaded')">
         <div class="card-body">
           <h5 class="card-title">${project.title}</h5>
           <p class="card-text">${project.description.substring(0, 100)}...</p>
@@ -1298,7 +1240,7 @@
         grid.appendChild(card);
       });
 
-      // Start animations immediately
+      // Trigger staggered animation
       setTimeout(() => {
         document.querySelectorAll('.project-card').forEach((card, index) => {
           setTimeout(() => {
@@ -1306,28 +1248,6 @@
           }, index * 150);
         });
       }, 100);
-    }
-
-    // Lazy loading implementation
-    function initLazyLoading() {
-      const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src;
-            img.onload = () => img.classList.add('loaded');
-            img.onerror = () => {
-              img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="%23f0f0f0"/><text x="50%" y="50%" text-anchor="middle" fill="%23999">Image not found</text></svg>';
-              img.classList.add('loaded');
-            };
-            observer.unobserve(img);
-          }
-        });
-      });
-
-      document.querySelectorAll('.lazy-load').forEach(img => {
-        imageObserver.observe(img);
-      });
     }
 
     // Open project detail modal
@@ -1500,17 +1420,6 @@
           }
         }
       });
-
-      // Hide preloader after DOM is ready, not waiting for images
-      setTimeout(() => {
-        const preloader = document.getElementById('preloader');
-        if (preloader) {
-          preloader.style.opacity = '0';
-          setTimeout(() => {
-            preloader.style.display = 'none';
-          }, 300);
-        }
-      }, 500); // Adjust this timing as needed (500ms = half second)
     });
 
     // // Event listeners
