@@ -604,6 +604,39 @@
           height: auto !important;
           max-height: 45vh !important;
         }
+
+        .image-container {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .image-container::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 20px;
+          height: 20px;
+          border: 2px solid var(--tosca-muted);
+          border-top: 2px solid var(--tosca-primary);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        .image-container img[style*="opacity: 1"]+ ::before {
+          display: none;
+        }
+
+        @keyframes spin {
+          0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+          }
+
+          100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+          }
+        }
       }
     }
   </style>
@@ -1250,8 +1283,11 @@
         card.className = 'col-md-6 col-lg-4';
         card.innerHTML = `
       <div class="card h-100 project-card" data-project-id="${project.id}">
-        <img data-src="${project.images[0]}" class="card-img-top lazy-load" alt="${project.title}" 
-             style="height: 200px; object-fit: cover;">
+        <div class="image-container" style="height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+          <img src="${project.images[0]}" class="card-img-top" alt="${project.title}" 
+               style="height: 200px; object-fit: cover; opacity: 0; transition: opacity 0.3s ease;" 
+               onload="this.style.opacity = '1'">
+        </div>
         <div class="card-body">
           <h5 class="card-title">${project.title}</h5>
           <p class="card-text">${project.description.substring(0, 100)}...</p>
@@ -1262,10 +1298,7 @@
         grid.appendChild(card);
       });
 
-      // Initialize lazy loading
-      initLazyLoading();
-
-      // Trigger staggered animation
+      // Start animations immediately
       setTimeout(() => {
         document.querySelectorAll('.project-card').forEach((card, index) => {
           setTimeout(() => {
@@ -1274,7 +1307,6 @@
         });
       }, 100);
     }
-
 
     // Lazy loading implementation
     function initLazyLoading() {
@@ -1468,6 +1500,17 @@
           }
         }
       });
+
+      // Hide preloader after DOM is ready, not waiting for images
+      setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+          preloader.style.opacity = '0';
+          setTimeout(() => {
+            preloader.style.display = 'none';
+          }, 300);
+        }
+      }, 500); // Adjust this timing as needed (500ms = half second)
     });
 
     // // Event listeners
