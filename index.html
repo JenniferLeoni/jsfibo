@@ -1414,6 +1414,14 @@
       generateProjectCards();
       handleScrollAnimations();
 
+      window.addEventListener('load', function () {
+        const preloader = document.querySelector('#preloader');
+        if (preloader) {
+          preloader.style.opacity = '0';
+          setTimeout(() => preloader.style.display = 'none', 300);
+        }
+      });
+
       // Add click listeners to project cards
       document.getElementById('projectsGrid').addEventListener('click', function (e) {
         const card = e.target.closest('.project-card');
@@ -1452,7 +1460,7 @@
 
 
   </script>
-
+  <!-- 
   <script>
     window.addEventListener('load', function () {
       // Remove preloader faster
@@ -1470,7 +1478,7 @@
       generateProjectCards(); // This runs as soon as DOM is ready
       // ... rest of your existing DOMContentLoaded code
     });
-  </script>
+  </script> -->
 
 </body>
 
