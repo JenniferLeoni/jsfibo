@@ -66,6 +66,8 @@
     .carousel-inner {
       height: 100vh;
       max-height: 600px;
+      /* display: flex; */
+      /* align-items: center; */
     }
 
     .project-details {
@@ -488,15 +490,98 @@
 
     #projectDetailModal .modal-dialog {
       display: flex;
-      align-items: center;
-      min-height: calc(100vh - 1rem);
-      margin: 0.5rem auto;
+      /* align-items: center;
+      min-height: calc(100vh - 1rem); */
+      margin: 1rem;
+      max-width: none;
+      ;
     }
 
     .modal-dialog-centered {
       display: flex !important;
       align-items: center !important;
       min-height: calc(100vh - 1rem) !important;
+    }
+
+    @media (max-width: 767.98px) {
+      .carousel-inner {
+        height: 40vh;
+        max-height: 300px;
+      }
+
+      .project-details {
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+
+      .modal-xl {
+        max-width: 95%;
+        margin: 0.5rem;
+      }
+    }
+
+    /* Force mobile layout */
+    @media (max-width: 767.98px) {
+      .modal-xl {
+        max-width: 95% !important;
+        margin: 0.5rem !important;
+      }
+
+      #projectDetailModal .row {
+        flex-direction: column !important;
+      }
+
+      #projectDetailModal .col-md-6 {
+        max-width: 100% !important;
+        flex: 0 0 auto !important;
+      }
+
+      .carousel-inner {
+        height: 35vh !important;
+        max-height: 250px !important;
+      }
+
+      .project-details {
+        height: auto !important;
+        max-height: 45vh !important;
+      }
+
+      @media (max-width: 767.98px) {
+        .modal-xl {
+          max-width: 95% !important;
+          margin: 0.5rem !important;
+        }
+
+        #projectDetailModal .modal-dialog {
+          display: flex;
+          align-items: center;
+          min-height: calc(100vh - 1rem);
+          margin: 0.5rem auto;
+        }
+
+        #projectDetailModal .modal-content {
+          width: 100%;
+        }
+
+        #projectDetailModal .row {
+          flex-direction: column !important;
+        }
+
+        #projectDetailModal .col-md-6 {
+          max-width: 100% !important;
+          flex: 0 0 auto !important;
+        }
+
+        .carousel-inner {
+          height: 35vh !important;
+          max-height: 250px !important;
+        }
+
+        .project-details {
+          height: auto !important;
+          max-height: 45vh !important;
+        }
+      }
     }
   </style>
   <!-- Main CSS File -->
@@ -871,7 +956,7 @@
             <div class="modal-body p-0">
               <div class="row g-0">
                 <!-- Left side: Carousel -->
-                <div class="col-md-6 bg-dark position-relative">
+                <div class="col-12 col-md-6 bg-dark position-relative">
                   <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
                     style="z-index: 1050;" data-bs-dismiss="modal" aria-label="Close"></button>
                   <div id="projectCarousel" class="carousel slide h-100" data-bs-ride="false">
@@ -895,7 +980,7 @@
                 </div>
 
                 <!-- Right side: Project explanation -->
-                <div class="col-md-6 project-details">
+                <div class="col-12 col-md-6 project-details">
                   <div class="p-4">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                       <h3 id="projectTitle" class="text-primary mb-0"></h3>
@@ -987,8 +1072,8 @@
         challenges: "At first the bot either missed subtle toxic messages or overreacted to harmless jokes, which frustrated users. I rebalanced the training data and switched to a more context-aware language model, then streamlined the code so it could flag messages quickly without slowing the chat. That mix finally made the bot both accurate and fast enough for live conversations.",
         technologies: ["Python", "PyTorch", "Discord API", "TensorFlow", "Capsule Network Method"],
         images: [
-          "1003-min.gif",
-          "1002-min.gif",
+          "1003-min.webp",
+          "1002-min.webp",
           "1001.webp"
         ],
         liveUrl: "https://example.com/ecommerce",
@@ -1033,7 +1118,7 @@
         challenges: "Getting reinforcement learning to run smoothly inside an active game loop was tougher than we expected. Early on, the AI lagged badly because training updates slowed the frame rate. We optimized by batching experience replay, reducing unnecessary renders during training, and using a leaner neural network so the agent could think quickly enough to keep the fight fluid. Balancing exploration and exploitation was another hurdle; we fine-tuned the epsilon decay and reward signals so the AI wouldn’t just spam attacks or freeze up, eventually reaching a level where it could consistently challenge a human player.",
         technologies: ["Python", "PyTorch", "Pygame", "NumPy", "Matplotlib"],
         images: [
-          "punchem.gif",
+          "punchem.webp",
           "3001.webp",
           "3002.webp",
           "3003.webp"
@@ -1057,7 +1142,7 @@
         challenges: "The biggest hurdle has been realistic rope physics that feel both responsive and fun. Early prototypes either stretched like rubber bands or clipped through obstacles. I iterated through several approaches, experimenting with constraint components, tuning collision responses, and blending physics sub-stepping, to find a balance where the rope behaves naturally but still keeps the gameplay tight and predictable.",
         technologies: ["Unreal Engine 5", "Steamworks SDK", "Physics Constraints & Sub-stepping"],
         images: [
-          "gifhb.gif",
+          "hb.webp",
           "4001.webp",
           "4002.webp",
           "4003.webp",
@@ -1102,7 +1187,7 @@
         challenges: "The main challenge was standing out in a crowded art niche. I focused on timely trend research, quick turnaround on requested styles, and consistent daily posting to maintain momentum while keeping the art quality high.",
         technologies: ["Instagram", "Krita", "Native Insights & Analytics"],
         images: [
-          "art-min.gif",
+          "art.webp",
           "6001.webp"
         ],
         liveUrl: "https://example.com/social-analytics",
@@ -1123,7 +1208,7 @@
         challenges: "Each commission requires balancing artistic style with client expectations. I’ve developed a workflow in Krita for detailed, layer-organized art according to client's request, also fine-tune parameters in Live2D to ensure the final model moves naturally while remaining lightweight for real-time streaming.",
         technologies: ["Krita", "Live2D Cubism", "VGen marketplace"],
         images: [
-          "gifbt.gif",
+          "vtuber.webp",
           "5001.webp",
           "5002.webp",
           "5004.webp"
